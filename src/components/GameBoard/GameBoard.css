@@ -1,0 +1,13 @@
+.gameboard{
+    background-color: black;
+    width: 50vw;
+    padding: 20px;
+}
+
+.players{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
