@@ -9,7 +9,7 @@ export default function TicTacToeBoard({ changePlayer, turns, findWinner }) {
 		[null, null, null],
 	];
 
-	const board = initialState;
+	const board = [...initialState.map((innerArray)=>[...innerArray])];
 
 	for (let turn of turns) {
 		console.log(turn.player);

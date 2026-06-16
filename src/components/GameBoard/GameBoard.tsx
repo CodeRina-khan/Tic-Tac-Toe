@@ -9,11 +9,24 @@ export default function GameBoard() {
 
     const [turns, setTurns] = useState([]);
 
-    const [winner, setWinner]= useState();
+    const [winner, setWinner] = useState();
 
-    function getWinner(player) {
-        console.log('called');
-        setWinner(player);
+    const [players, setPlayers] = useState(
+        {
+            'X': 'Player 1',
+            'O': 'Player 2'
+        });
+    
+
+    function getWinner(playerSymbol) {
+        console.log(playerSymbol+"won");
+        setWinner(players[playerSymbol]);
+    }
+
+    function rematch() {
+        setTurns([]);
+        setActivePlayer('X');
+        setWinner(undefined);
     }
 
     function handlePlayerChange(rowIndex, colIndex){
@@ -28,30 +41,41 @@ export default function GameBoard() {
         })
     }
 
+
+    function handlePlayerNameChange(symbol, newName) {
+        setPlayers((previousPlayer) => { return { ...previousPlayer, [symbol]: newName } });
+    }
+
+    let isDraw = turns.length == 9;
+
     return (
-        <>
-         {winner ? <GameOver winner={winner} /> : null}
-        <div className="gameboard">
-			<div className="players">
-				<Player
-					initialname="Player 1"
-					isActive={activePlayer == 'X'}
-					symbol="X"
-				/>
-				<Player
-					initialname="Player 2"
-					isActive={activePlayer == 'O'}
-					symbol="O"
-				/>
-            </div>
-			<div className="board">
-				<TicTacToeBoard
-					turns={turns}
-					findWinner = {getWinner}
-					changePlayer={handlePlayerChange}
-				/>
+		<>
+			{winner || isDraw ?
+				<GameOver winner={winner} rematch={rematch} />
+			:	null}
+			<div className="gameboard">
+				<div className="players">
+					<Player
+						initialname="Player 1"
+						isActive={activePlayer == 'X'}
+						symbol="X"
+						handlePlayerNameChange={handlePlayerNameChange}
+					/>
+					<Player
+						initialname="Player 2"
+						isActive={activePlayer == 'O'}
+						symbol="O"
+						handlePlayerNameChange={handlePlayerNameChange}
+					/>
+				</div>
+				<div className="board">
+					<TicTacToeBoard
+						turns={turns}
+						findWinner={getWinner}
+						changePlayer={handlePlayerChange}
+					/>
+				</div>
 			</div>
-		</div>
-        </>
+		</>
 	);
 }

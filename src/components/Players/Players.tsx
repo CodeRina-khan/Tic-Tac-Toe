@@ -11,6 +11,9 @@ export default function Player(props) {
 
     function handleEditing() {
         setEditig((editing) => !editing);
+        if (editing) {
+            props.handlePlayerNameChange(props.symbol, name);
+        }
     }
     
     function handleChange(event) {
